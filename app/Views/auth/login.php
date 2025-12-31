@@ -15,50 +15,144 @@
         }
         .login-container {
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 50px;
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
         }
         .login-container h2 {
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 10px;
             text-align: center;
+            font-weight: 600;
+        }
+        .login-subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-login:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .demo-info {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 25px;
+            font-size: 13px;
+        }
+        .demo-info strong {
+            color: #667eea;
+        }
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .invalid-feedback {
+            display: block;
+            font-size: 13px;
+            margin-top: 5px;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h2>🌄 Wisata Desa</h2>
-        
+        <p class="login-subtitle">Sistem Manajemen Desa Wisata</p>
+
+        <!-- Tampilkan pesan error -->
         <?php if (isset($error)): ?>
-            <div class="alert alert-danger"><?= $error ?></div>
-        <?php endif; ?>
-
-        <?php if (isset($errors)): ?>
-            <div class="alert alert-danger">
-                <?php foreach ($errors as $error): ?>
-                    <p><?= $error ?></p>
-                <?php endforeach; ?>
+            <div class="error-message">
+                <strong>⚠️ Error!</strong> <?= esc($error) ?>
             </div>
         <?php endif; ?>
 
-        <form method="post" action="<?= site_url('auth/login') ?>">
-            <div class="mb-3">
-                <label class="form-label">Email</label>
-                <input type="email" name="email" class="form-control" required>
+        <!-- Tampilkan pesan success -->
+        <?php if (session()->getFlashdata('success')): ?>
+            <div class="alert alert-success" role="alert">
+                ✅ <?= session()->getFlashdata('success') ?>
             </div>
+        <?php endif; ?>
+
+        <form method="post" action="<?= base_url('auth/login') ?>" novalidate>
+            <?= csrf_field() ?>
+
             <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" required>
+                <label class="form-label">📧 Email</label>
+                <input 
+                    type="email" 
+                    name="email" 
+                    class="form-control <?= (isset($errors['email'])) ? 'is-invalid' : '' ?>"
+                    value="<?= old('email') ?>"
+                    required
+                    placeholder="admin@wisatadesa.com">
+                <?php if (isset($errors['email'])): ?>
+                    <div class="invalid-feedback">
+                        <?= $errors['email'] ?>
+                    </div>
+                <?php endif; ?>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
+
+            <div class="mb-3">
+                <label class="form-label">🔐 Password</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    class="form-control <?= (isset($errors['password'])) ? 'is-invalid' : '' ?>"
+                    required
+                    placeholder="Masukkan password Anda">
+                <?php if (isset($errors['password'])): ?>
+                    <div class="invalid-feedback">
+                        <?= $errors['password'] ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-login">
+                🔓 Masuk
+            </button>
         </form>
-        
-        <div class="text-center mt-3">
-            <p class="text-muted">Demo: admin@wisatadesa.com / password123</p>
+
+        <div class="demo-info">
+            <strong>📝 Akun Demo:</strong><br>
+            Email: <strong>admin@wisatadesa.com</strong><br>
+            Password: <strong>password123</strong>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
