@@ -157,6 +157,18 @@ class App extends BaseConfig
      * secure, the user will be redirected to a secure version of the page
      * and the HTTP Strict Transport Security (HSTS) header will be set.
      */
+
+    /**
+     * --------------------------------------------------------------------------
+     * Session Configuration
+     * --------------------------------------------------------------------------
+     */
+    public string $sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler';
+    public string $sessionSavePath = WRITEPATH . 'session';
+    public int $sessionExpiration = 7200;
+    public bool $sessionMatchIP = false;
+    public bool $sessionRegenerateDestroy = false;
+
     public bool $forceGlobalSecureRequests = false;
 
     /**

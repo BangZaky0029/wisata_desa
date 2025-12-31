@@ -2,7 +2,10 @@
 
 use CodeIgniter\Router\RouteCollection;
 
-$routes->match(['get','post'], '/', 'Auth::login');
+$routes->get('/', function () {
+    return redirect()->to('dashboard');
+});
+
 $routes->match(['get', 'post'], 'auth/login', 'Auth::login');
 $routes->get('auth/logout', 'Auth::logout');
 

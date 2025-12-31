@@ -20,20 +20,16 @@ class Dashboard extends BaseController
     }
 
     public function index()
-    {
-        // Verifikasi session
-        if (!session()->get('logged_in')) {
-            return redirect()->to('auth/login')->with('error', 'Silakan login terlebih dahulu');
+        {
+            $data = [
+                'title' => 'Dashboard',
+                'total_desa'  => $this->desaModel->countAll(),
+                'total_paket' => $this->paketModel->countAll(),
+                'total_event' => $this->eventModel->countAll(),
+                'total_user'  => $this->userModel->countAll(),
+            ];
+
+            return view('dashboard/index', $data);
         }
 
-        $data = [
-            'title' => 'Dashboard',
-            'total_desa' => $this->desaModel->countAll(),
-            'total_paket' => $this->paketModel->countAll(),
-            'total_event' => $this->eventModel->countAll(),
-            'total_user' => $this->userModel->countAll(),
-        ];
-
-        return view('dashboard/index', $data);
-    }
 }

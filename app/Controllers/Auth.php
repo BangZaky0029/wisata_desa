@@ -15,15 +15,16 @@ class Auth extends BaseController
 
     public function login()
     {
-        // Jika sudah login, redirect ke dashboard
-        if (session()->get('logged_in')) {
-            return redirect()->to('dashboard');
+        if ($this->request->getMethod() !== 'post') {
+            if (session()->get('logged_in')) {
+                return redirect()->to(site_url('dashboard'));
+            }
         }
 
         if ($this->request->getMethod() === 'post') {
             $rules = [
                 'email' => 'required|valid_email',
-                'password' => 'required|min_length[6]'
+                'password' => 'required'
             ];
 
             if (!$this->validate($rules)) {
@@ -38,7 +39,6 @@ class Auth extends BaseController
 
             $user = $this->userModel->getUserByEmail($email);
 
-            // Cek email ada atau tidak
             if (!$user) {
                 return view('auth/login', [
                     'error' => 'Email tidak ditemukan',
@@ -46,7 +46,6 @@ class Auth extends BaseController
                 ]);
             }
 
-            // Cek password
             if (!password_verify($password, $user['password'])) {
                 return view('auth/login', [
                     'error' => 'Password salah',
@@ -54,22 +53,15 @@ class Auth extends BaseController
                 ]);
             }
 
-            // Set session dengan benar
-            $sessionData = [
-                'user_id' => $user['id'],
-                'user_name' => $user['name'],
+            session()->set([
+                'user_id'    => $user['id'],
+                'user_name'  => $user['name'],
                 'user_email' => $user['email'],
-                'user_role' => $user['role'],
-                'logged_in' => true
-            ];
+                'user_role'  => $user['role'],
+                'logged_in'  => true,
+            ]);
 
-            session()->set($sessionData);
-
-            // DEBUG: Log untuk memastikan session tersimpan
-            log_message('info', 'User logged in: ' . $user['email']);
-
-            // Redirect ke dashboard
-            return redirect()->to('dashboard')->with('success', 'Selamat datang ' . $user['name']);
+            return redirect()->to(site_url('dashboard'));
         }
 
         return view('auth/login');
@@ -78,6 +70,6 @@ class Auth extends BaseController
     public function logout()
     {
         session()->destroy();
-        return redirect()->to('/auth/login')->with('success', 'Anda telah logout');
+        return redirect()->to('/auth/login');
     }
 }
