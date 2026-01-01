@@ -36,10 +36,13 @@
                         <?php endif; ?>
                     </div>
 
-                    <?php if (!empty($this->request->getPost('password'))): ?>
+                    <?php if ($showConfirm): ?>
                     <div class="mb-3">
                         <label class="form-label">🔐 Konfirmasi Password</label>
                         <input type="password" name="password_confirm" class="form-control">
+                        <?php if (isset($errors['password_confirm'])): ?>
+                            <small class="text-danger"><?= $errors['password_confirm'] ?></small>
+                        <?php endif; ?>
                     </div>
                     <?php endif; ?>
 

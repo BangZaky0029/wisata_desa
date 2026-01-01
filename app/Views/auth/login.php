@@ -37,6 +37,7 @@
             border-radius: 8px;
             padding: 12px 15px;
             border: 1px solid #ddd;
+            margin-bottom: 15px;
         }
         .form-control:focus {
             border-color: #667eea;
@@ -50,11 +51,16 @@
             font-weight: 600;
             width: 100%;
             margin-top: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
         }
         .btn-login:hover {
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            color: white;
+            text-decoration: none;
         }
         .demo-info {
             background: #f8f9fa;
@@ -75,6 +81,14 @@
             border-radius: 5px;
             margin-bottom: 15px;
         }
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
         .form-label {
             font-weight: 600;
             color: #333;
@@ -85,6 +99,7 @@
             display: block;
             font-size: 13px;
             margin-top: 5px;
+            color: #dc3545;
         }
     </style>
 </head>
@@ -93,32 +108,47 @@
         <h2>🌄 Wisata Desa</h2>
         <p class="login-subtitle">Sistem Manajemen Desa Wisata</p>
 
-        <!-- Tampilkan pesan error -->
+        <!-- Tampilkan pesan error jika ada -->
         <?php if (isset($error)): ?>
             <div class="error-message">
                 <strong>⚠️ Error!</strong> <?= esc($error) ?>
             </div>
         <?php endif; ?>
 
-        <!-- Tampilkan pesan success -->
+        <!-- Tampilkan pesan success dari flash -->
         <?php if (session()->getFlashdata('success')): ?>
-            <div class="alert alert-success" role="alert">
+            <div class="success-message">
                 ✅ <?= session()->getFlashdata('success') ?>
             </div>
         <?php endif; ?>
 
+        <!-- Tampilkan validation errors -->
+        <?php if (isset($errors) && !empty($errors)): ?>
+            <div class="error-message">
+                <strong>⚠️ Validasi Error!</strong>
+                <ul style="margin: 10px 0 0 20px; padding: 0;">
+                    <?php foreach ($errors as $field => $error): ?>
+                        <li><?= $error ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
+        <!-- Form Login -->
         <form method="post" action="<?= base_url('auth/login') ?>" novalidate>
             <?= csrf_field() ?>
 
             <div class="mb-3">
-                <label class="form-label">📧 Email</label>
+                <label class="form-label" for="email">📧 Email</label>
                 <input 
                     type="email" 
+                    id="email"
                     name="email" 
                     class="form-control <?= (isset($errors['email'])) ? 'is-invalid' : '' ?>"
                     value="<?= old('email') ?>"
                     required
-                    placeholder="admin@wisatadesa.com">
+                    placeholder="admin@wisatadesa.com"
+                    autocomplete="email">
                 <?php if (isset($errors['email'])): ?>
                     <div class="invalid-feedback">
                         <?= $errors['email'] ?>
@@ -127,13 +157,15 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label">🔐 Password</label>
+                <label class="form-label" for="password">🔐 Password</label>
                 <input 
                     type="password" 
+                    id="password"
                     name="password" 
                     class="form-control <?= (isset($errors['password'])) ? 'is-invalid' : '' ?>"
                     required
-                    placeholder="Masukkan password Anda">
+                    placeholder="Masukkan password Anda"
+                    autocomplete="current-password">
                 <?php if (isset($errors['password'])): ?>
                     <div class="invalid-feedback">
                         <?= $errors['password'] ?>
@@ -141,14 +173,19 @@
                 <?php endif; ?>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-login">
+            <button type="submit" class="btn btn-login">
                 🔓 Masuk
             </button>
         </form>
 
+        <!-- Info Demo Account -->
         <div class="demo-info">
             <strong>📝 Akun Demo:</strong><br>
             Email: <strong>admin@wisatadesa.com</strong><br>
+            Password: <strong>password123</strong>
+            <br><br>
+            <small>atau</small><br>
+            Email: <strong>user@wisatadesa.com</strong><br>
             Password: <strong>password123</strong>
         </div>
     </div>

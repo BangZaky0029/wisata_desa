@@ -15,13 +15,13 @@ class UserController extends BaseController
 
     public function index()
     {
-        $data = ['users' => $this->userModel->findAll()];
-        return view('user/index', $data);
+        $data['users'] = $this->userModel->findAll();
+        return view('users/index', $data);
     }
 
     public function create()
     {
-        return view('user/create');
+        return view('users/create');
     }
 
     public function store()
@@ -49,9 +49,12 @@ class UserController extends BaseController
     }
 
     public function edit($id)
-    {
-        $data = ['user' => $this->userModel->find($id)];
-        return view('user/edit', $data);
+    {   
+        $data = [
+            'user' => $this->userModel->find($id),
+            'showConfirm' => ! empty(old('password'))
+        ];
+        return view('users/edit', $data);
     }
 
     public function update($id)

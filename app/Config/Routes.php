@@ -6,8 +6,10 @@ $routes->get('/', function () {
     return redirect()->to('dashboard');
 });
 
-$routes->match(['get', 'post'], 'auth/login', 'Auth::login');
+$routes->get('auth/login', 'Auth::login');
+$routes->post('auth/login', 'Auth::attemptLogin');
 $routes->get('auth/logout', 'Auth::logout');
+
 
 $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('dashboard', 'Dashboard::index');
