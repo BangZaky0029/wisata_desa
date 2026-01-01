@@ -183,10 +183,6 @@
             <strong>📝 Akun Demo:</strong><br>
             Email: <strong>admin@wisatadesa.com</strong><br>
             Password: <strong>password123</strong>
-            <br><br>
-            <small>atau</small><br>
-            Email: <strong>user@wisatadesa.com</strong><br>
-            Password: <strong>password123</strong>
         </div>
     </div>
 
