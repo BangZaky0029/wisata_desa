@@ -11,10 +11,15 @@
     
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --sidebar-width: 260px;
+            --primary-gradient: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            --primary-color: #27ae60;
+            --secondary-color: #2ecc71;
+            --accent-color: #f39c12;
+            --sidebar-width: 280px;
+            --nature-green: #27ae60;
+            --sky-blue: #3498db;
+            --sunset-orange: #e67e22;
+            --mountain-gray: #95a5a6;
         }
 
         * {
@@ -24,19 +29,60 @@
         }
 
         body {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Navbar Styles */
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%232ecc71" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,106.7C1248,96,1344,96,1392,96L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') 
+                no-repeat bottom center;
+            background-size: cover;
+            z-index: -1;
+            opacity: 0.6;
+            animation: wave 15s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Mountain Background Effect */
+        .mountain-bg {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            background: 
+                linear-gradient(to top, rgba(46, 204, 113, 0.2) 0%, transparent 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%2327ae60" fill-opacity="0.3" d="M0,192L60,197.3C120,203,240,213,360,202.7C480,192,600,160,720,154.7C840,149,960,171,1080,186.7C1200,203,1320,213,1380,218.7L1440,224L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>') 
+                no-repeat bottom center;
+            background-size: cover;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Enhanced Navbar */
         .navbar {
-            background: var(--primary-gradient);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.95) 0%, rgba(39, 174, 96, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(39, 174, 96, 0.3);
             position: sticky;
             top: 0;
             z-index: 1000;
             animation: slideDown 0.5s ease-out;
+            border-bottom: 3px solid var(--accent-color);
         }
 
         @keyframes slideDown {
@@ -52,23 +98,48 @@
 
         .navbar-brand {
             font-weight: 700;
-            font-size: 24px;
-            transition: transform 0.3s;
+            font-size: 26px;
+            transition: all 0.3s;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-brand .brand-icon {
+            font-size: 32px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .navbar-brand:hover {
             transform: scale(1.05);
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
         }
 
-        /* Sidebar Styles */
+        .user-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 25px;
+            margin-right: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Enhanced Sidebar */
         .sidebar {
-            background: white;
+            background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
             min-height: calc(100vh - 56px);
             padding: 30px 0;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
             position: sticky;
             top: 56px;
             animation: slideRight 0.5s ease-out;
+            border-right: 3px solid var(--primary-color);
         }
 
         @keyframes slideRight {
@@ -82,17 +153,31 @@
             }
         }
 
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,80 Q50,60 80,80 L80,100 L20,100 Z" fill="%232ecc71" opacity="0.05"/></svg>') repeat-y right;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
         .sidebar a {
-            color: #333;
+            color: #2c3e50;
             padding: 15px 25px;
             display: flex;
             align-items: center;
             text-decoration: none;
             border-left: 4px solid transparent;
             transition: all 0.3s ease;
-            margin: 5px 0;
+            margin: 5px 10px;
+            border-radius: 0 15px 15px 0;
             position: relative;
             overflow: hidden;
+            font-weight: 500;
         }
 
         .sidebar a::before {
@@ -102,8 +187,9 @@
             top: 0;
             height: 100%;
             width: 0;
-            background: linear-gradient(90deg, rgba(102, 126, 234, 0.1) 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(46, 204, 113, 0.2) 0%, transparent 100%);
             transition: width 0.3s ease;
+            z-index: -1;
         }
 
         .sidebar a:hover::before {
@@ -111,24 +197,50 @@
         }
 
         .sidebar a:hover {
-            background-color: #f8f9fa;
+            background: linear-gradient(90deg, rgba(46, 204, 113, 0.1) 0%, transparent 100%);
             border-left-color: var(--primary-color);
             color: var(--primary-color);
-            transform: translateX(5px);
+            transform: translateX(8px);
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.2);
         }
 
         .sidebar a.active {
-            background: linear-gradient(90deg, rgba(102, 126, 234, 0.15) 0%, transparent 100%);
+            background: linear-gradient(90deg, rgba(46, 204, 113, 0.15) 0%, transparent 100%);
             border-left-color: var(--primary-color);
             color: var(--primary-color);
-            font-weight: 600;
+            font-weight: 700;
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.2);
         }
 
         .sidebar a i {
-            margin-right: 12px;
-            font-size: 20px;
-            width: 25px;
+            margin-right: 15px;
+            font-size: 22px;
+            width: 30px;
             text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .sidebar a:hover i {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        /* Decorative Elements */
+        .sidebar-decoration {
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px dashed rgba(46, 204, 113, 0.3);
+        }
+
+        .sidebar-decoration i {
+            font-size: 48px;
+            color: var(--primary-color);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         /* Content Area */
@@ -136,6 +248,7 @@
             padding: 30px;
             animation: fadeIn 0.6s ease-out;
             min-height: calc(100vh - 56px);
+            background: transparent;
         }
 
         @keyframes fadeIn {
@@ -149,50 +262,75 @@
             }
         }
 
-        /* Card Styles */
+        /* Enhanced Card Styles */
         .card {
             border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
             margin-bottom: 25px;
-            border-radius: 15px;
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            transition: all 0.4s ease;
             animation: cardAppear 0.5s ease-out;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
 
         @keyframes cardAppear {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: scale(0.9) translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: scale(1) translateY(0);
             }
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(46, 204, 113, 0.25);
+            border-color: var(--primary-color);
         }
 
         .card-header {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             color: white;
             border: none;
-            border-radius: 15px 15px 0 0 !important;
-            padding: 18px 25px;
+            border-radius: 20px 20px 0 0 !important;
+            padding: 20px 25px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Button Styles */
+        .card-header i {
+            font-size: 24px;
+        }
+
+        /* Nature-inspired Button Styles */
         .btn-primary {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             border: none;
-            padding: 10px 25px;
-            border-radius: 10px;
+            padding: 12px 30px;
+            border-radius: 25px;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
         }
 
         .btn-primary::before {
@@ -203,7 +341,7 @@
             width: 0;
             height: 0;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.3);
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
         }
@@ -214,123 +352,62 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
         }
 
-        /* Stat Cards */
-        .stat-card {
-            border-radius: 15px;
-            padding: 25px;
-            color: white;
-            margin-bottom: 25px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
+        /* Nature Icons */
+        .nature-icon {
+            display: inline-block;
+            animation: rotate 20s linear infinite;
         }
 
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.1);
-            transform: rotate(45deg);
-            transition: all 0.5s ease;
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .stat-card:hover::before {
-            top: -100%;
-            right: -100%;
+        /* Floating Nature Elements */
+        .floating-leaf {
+            position: fixed;
+            font-size: 30px;
+            opacity: 0.3;
+            animation: float 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
         }
 
-        .stat-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        .floating-leaf:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
         }
 
-        .stat-card.blue {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .floating-leaf:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 3s;
         }
 
-        .stat-card.green {
-            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        .floating-leaf:nth-child(3) {
+            bottom: 30%;
+            left: 80%;
+            animation-delay: 6s;
         }
 
-        .stat-card.orange {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-        }
-
-        .stat-card.pink {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-        }
-
-        .stat-number {
-            font-size: 42px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            animation: countUp 1s ease-out;
-        }
-
-        @keyframes countUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+            25% {
+                transform: translateY(-20px) rotate(5deg);
             }
-        }
-
-        /* Alert Styles */
-        .alert {
-            border-radius: 12px;
-            border: none;
-            animation: slideInDown 0.5s ease-out;
-        }
-
-        @keyframes slideInDown {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
+            50% {
+                transform: translateY(-10px) rotate(-5deg);
             }
-            to {
-                transform: translateY(0);
-                opacity: 1;
+            75% {
+                transform: translateY(-30px) rotate(3deg);
             }
-        }
-
-        /* Table Styles */
-        .table {
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        .table thead {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-        }
-
-        .table tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        .table tbody tr:hover {
-            background-color: #f8f9fa;
-            transform: scale(1.01);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        /* Button Group Animation */
-        .btn-group .btn {
-            transition: all 0.3s ease;
-        }
-
-        .btn-group .btn:hover {
-            transform: scale(1.1);
-            z-index: 10;
         }
 
         /* Loading Overlay */
@@ -340,18 +417,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: linear-gradient(135deg, rgba(46, 204, 113, 0.9) 0%, rgba(39, 174, 96, 0.9) 100%);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 9999;
+            backdrop-filter: blur(5px);
         }
 
         .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 6px solid #ffffff;
-            border-top: 6px solid transparent;
+            width: 70px;
+            height: 70px;
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top: 6px solid #ffffff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -370,24 +448,91 @@
             .content-wrapper {
                 padding: 15px;
             }
+
+            .navbar-brand {
+                font-size: 20px;
+            }
+
+            .user-info {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+        }
+
+        /* Alert Styles with Nature Theme */
+        .alert {
+            border-radius: 15px;
+            border: none;
+            animation: slideInDown 0.5s ease-out;
+            border-left: 5px solid;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-left-color: var(--primary-color);
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border-left-color: #dc3545;
+        }
+
+        /* Tooltip Nature Theme */
+        .tooltip-inner {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        /* Sun/Moon Icon for Day/Night */
+        .weather-icon {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            font-size: 50px;
+            color: var(--accent-color);
+            animation: glow 3s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(243, 156, 18, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(243, 156, 18, 0.8);
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Mountain Background -->
+    <div class="mountain-bg"></div>
+
+    <!-- Floating Nature Elements -->
+    <div class="floating-leaf">🍃</div>
+    <div class="floating-leaf">🌿</div>
+    <div class="floating-leaf">🌱</div>
+
+    <!-- Weather/Sun Icon -->
+    <div class="weather-icon">☀️</div>
+
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
     </div>
 
-    <!-- Navbar -->
+    <!-- Enhanced Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <span class="navbar-brand">🌄 Wisata Desa Dashboard</span>
+            <span class="navbar-brand">
+                <span class="brand-icon nature-icon">🏞️</span>
+                Wisata Desa Indonesia
+            </span>
             <div class="ms-auto d-flex align-items-center">
-                <span class="text-white me-3">
+                <div class="user-info text-white">
                     <i class="bi bi-person-circle"></i> 
                     <?= session('email') ?>
-                </span>
+                </div>
                 <a href="<?= base_url('auth/logout') ?>" class="btn btn-sm btn-light" onclick="return confirmLogout(event)">
                     <i class="bi bi-box-arrow-right"></i> Logout
                 </a>
@@ -397,23 +542,28 @@
 
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
+            <!-- Enhanced Sidebar -->
             <div class="col-md-2 px-0">
                 <div class="sidebar">
+                    <div class="sidebar-decoration">
+                        <i class="bi bi-tree-fill"></i>
+                        <p class="mt-2 mb-0 text-muted small">Kelola Wisata</p>
+                    </div>
+                    
                     <a href="<?= base_url('dashboard') ?>" class="<?= uri_string() == 'dashboard' ? 'active' : '' ?>">
                         <i class="bi bi-speedometer2"></i> Dashboard
                     </a>
                     <a href="<?= base_url('desa') ?>" class="<?= strpos(uri_string(), 'desa') !== false ? 'active' : '' ?>">
-                        <i class="bi bi-houses"></i> Desa Wisata
+                        <i class="bi bi-houses-fill"></i> Desa Wisata
                     </a>
                     <a href="<?= base_url('paket') ?>" class="<?= strpos(uri_string(), 'paket') !== false ? 'active' : '' ?>">
-                        <i class="bi bi-bag"></i> Paket Wisata
+                        <i class="bi bi-bag-check-fill"></i> Paket Wisata
                     </a>
                     <a href="<?= base_url('event') ?>" class="<?= strpos(uri_string(), 'event') !== false ? 'active' : '' ?>">
-                        <i class="bi bi-calendar-event"></i> Event Wisata
+                        <i class="bi bi-calendar-event-fill"></i> Event Wisata
                     </a>
                     <a href="<?= base_url('user') ?>" class="<?= strpos(uri_string(), 'user') !== false ? 'active' : '' ?>">
-                        <i class="bi bi-people"></i> Manajemen User
+                        <i class="bi bi-people-fill"></i> Manajemen User
                     </a>
                 </div>
             </div>
